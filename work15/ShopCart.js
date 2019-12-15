@@ -1,14 +1,14 @@
 (function(window) {
-    let ShopCart = function(prefix, deCart) {
+    let ShopCart = function(prefix, defCart) {
         Find.prototype.prefix = prefix;
-        let cart = new cart(document.getElementsByClassName(prefix) [0]);
-        for (let i in deCart) {
+        let cart = new Cart(document.getElementsByClassName(prefix)[0]);
+        for (let i in defCart) {
             cart.add(defCart[i]);
         }
         cart.updateTotal();
     };
     function Cart(obj) {
-        this.item = [];
+        this.items = [];
         let find = new Find(obj);
         this.all = find.className('all');
         this.unall = find.className('unall');
@@ -21,7 +21,7 @@
         this.all.onclick = function() {
             cart.checkAll();
         };
-        this.unall.onclick = function(){
+        this.unall.onclick = function() {
             cart.uncheckAll();
         }
     }
@@ -38,29 +38,29 @@
                 item.updateSubtotal()
                 cart.updateTotal();
             };
-            item.reduce.onclick = function() {
+            item.reduce.onclick = function () {
                 if (item.data.num > 1) {
                     item.num.textContent = --item.data.num;
-                    item.updateSubtotal()
+                    item.updateSubtotal();
                     cart.updateTotal();
-                } else {
+                }else{
                     alert('至少选择1件，如果不需要，请直接删除');
                 }
             };
             item.del.onclick = function() {
-                if (confirm('您确定要删除此商品吗？')) {
-                   tmp.parentNode.removeChild(tmp);
-                   cart.dal(item);
-                   cart.updateTotal();
+                if (confirm('你确定要删除此商品吗?')) {
+                    tmp.parentNode.removeChild(tmp);
+                    cart.del(item);
+                    cart.updateTotal();
                 }
             };
             item.updateSubtotal();
-            this.item.push(item);
+            this.items.push(item);
             this.bottom.before(tmp);
         },
         del: function(item) {
             for (let i in this.items) {
-                if (this.item[i] === item) {
+                if (this.items[i] === item){
                     delete this.items[i];
                 }
             }
@@ -71,7 +71,7 @@
                 let item = this.items[i];
                 if (item.check.checked) {
                     num += item.data.num;
-                    price +=item.data.num * item.data.price;
+                    price += item.data.num * item.data.price;
                 }
             }
             this.num.textContent = num;
@@ -81,7 +81,7 @@
             for (let i in this.items) {
                 this.items[i].check.checked = true;
             }
-            this.ypdateTotal();
+            this.updateTotal();
         },
         uncheckAll:function(){
             for (let i in this.items) {
@@ -107,17 +107,17 @@
     }
     Item.prototype = {
         updateSubtotal: function() {
-            this.subtotal.textContent = (this.data.num * this.data.price).toFixed.toFixed(2);
+            this.subtotal.textContent = (this.data.num * this.data.price).toFixed(2);
         }
     };
     function Find(obj) {
         this.obj = obj;
     }
     Find.prototype = {
-       prefix: '',
-       className: function(className) {
-           return this.obj.getElementsByClassName(this.prefix + '-' + className)[0];
-       }
+        prefix: '',
+        className: function(className) {
+            return this.obj.getElementsByClassName(this.prefix + '-' + className)[0];
+        }
     };
     window['ShopCart'] = ShopCart;
-})(window);   
+})(window); 
